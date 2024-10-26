@@ -1,5 +1,5 @@
 import jsonwebtoken from "jsonwebtoken";
-import User from "../models/user.js";
+import { User } from "../config/dbConfig.js";
 
 // jwt authentication
 export const auth = async (req, res, next) => {
@@ -25,13 +25,11 @@ export const auth = async (req, res, next) => {
 // admin authorization
 export const admin = async (req, res, next) => {
   try {
-    const user = await User.findById({ _id: req.userId })
-      .populate("role")
-      .select("-password");
+    const user = await User.findOne({ id: req.userId });
 
     if (!user.role.name === "ADMIN") {
       return res.status(404).json({
-        error: "Unauthorized access",
+        error: "This role type has no access to this resource.",
         statusCode: 404,
       });
     }

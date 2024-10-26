@@ -17,11 +17,13 @@ export const dbConnect = async () => {
 
   try {
     await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
+    console.log(
+      "Connection with PostgreSQL has been established successfully."
+    );
     User = userModel(sequelize);
     SfDetail = sfDetailModel(sequelize);
     await sequelize.sync();
-    console.log(`Tables created successfully`);
+    console.log(`Tables created/updated successfully`);
   } catch (error) {
     console.error("Unable to connect to the database:", error);
   }
