@@ -89,9 +89,10 @@ const retryAccessToken = async (req, res, error) => {
     error.code === "ERR_BAD_REQUEST" &&
     error.status === 401
   ) {
-    console.log("entered");
+    console.log("****Getting new access token from Salesforce****");
     counter++;
     const data = await refreshAccessToken();
+    console.log("****Updating access token in database****");
     await sfDetail.update({ access_token: data.access_token });
     findAll(req, res);
   } else {

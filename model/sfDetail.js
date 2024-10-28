@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 
-export const sfDetailModel = (sequelize) => {
+const sfDetailModel = (sequelize) => {
   const { DataTypes } = Sequelize;
 
   return sequelize.define(
@@ -29,3 +29,5 @@ export const sfDetailModel = (sequelize) => {
     }
   );
 };
+
+export default sfDetailModel;

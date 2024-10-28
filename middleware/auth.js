@@ -1,5 +1,5 @@
 import jsonwebtoken from "jsonwebtoken";
-import { User } from "../config/dbConfig.js";
+import { BlackListedJwt, User } from "../config/dbConfig.js";
 
 // jwt authentication
 export const auth = async (req, res, next) => {
@@ -8,9 +8,17 @@ export const auth = async (req, res, next) => {
   try {
     if (authorization && authorization.startsWith("Bearer")) {
       token = authorization.split(" ")[1];
+
+      const blackListedJwt = await BlackListedJwt.findOne({
+        where: { jwt: token },
+      });
+      if (blackListedJwt)
+        return res.status(400).json({ error: "Jwt is invalid" });
+
       const { userId } = jsonwebtoken.verify(token, process.env.JWT_SECRET);
 
       req.userId = userId;
+      req.jwt = token;
       next();
     }
   } catch (error) {

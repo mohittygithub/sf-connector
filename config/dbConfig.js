@@ -1,9 +1,11 @@
 import { Sequelize } from "sequelize";
-import userModel from "../models/user.js";
-import { sfDetailModel } from "../models/sfDetail.js";
+import userModel from "../model/user.js";
+import sfDetailModel from "../model/sfDetail.js";
+import blackListedJwtModel from "../model/blackListedJwt.js";
 
 let User = null;
 let SfDetail = null;
+let BlackListedJwt = null;
 export const dbConnect = async () => {
   const sequelize = new Sequelize(
     process.env.db_name,
@@ -22,6 +24,7 @@ export const dbConnect = async () => {
     );
     User = userModel(sequelize);
     SfDetail = sfDetailModel(sequelize);
+    BlackListedJwt = blackListedJwtModel(sequelize);
     await sequelize.sync();
     console.log(`Tables created/updated successfully`);
   } catch (error) {
@@ -29,4 +32,4 @@ export const dbConnect = async () => {
   }
 };
 
-export { User, SfDetail };
+export { User, SfDetail, BlackListedJwt };

@@ -8,10 +8,12 @@ import {
   updateUser,
 } from "../controller/userController.js";
 import { auth, admin } from "../middleware/auth.js";
+import { addJwtToBlacklist } from "../controller/blackListJwtController.js";
 
 const router = experss.Router();
 
 router.post("/login", login);
+router.post("/logout", auth, addJwtToBlacklist);
 router.post("/register", register);
 router.get("/", auth, admin, findAllUsers);
 router.get("/:userId", auth, findUserById);
